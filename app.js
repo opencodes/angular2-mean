@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,12 +25,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
+  
+  var uri = "mongodb://root:root@cluster0-shard-00-00-vcdx3.mongodb.net:27017,cluster0-shard-00-01-vcdx3.mongodb.net:27017,cluster0-shard-00-02-vcdx3.mongodb.net:27017/angular?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
+  MongoClient.connect(uri, function(err, db) {
+    req.db = db;
+    next();
+  });
+  
 });
 
 app.use('/api', index);
-app.use('/users', users);
+app.use('/api/user', users);
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
