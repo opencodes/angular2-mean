@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 router.get('/posts', function(req, res){
 
 
-
   res.json([
   {
     "userId": 1,
