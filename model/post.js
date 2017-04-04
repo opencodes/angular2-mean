@@ -5,7 +5,7 @@ var post = {
             next();
         })
     },
-    ListPost: function(){
+    ListPost: function(req,res,next){
         req.db.collection('post').find(req.query).limit(20).toArray(function(err, response){
             req.response = err || response;
             next();

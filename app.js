@@ -24,8 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
+
   
   var uri = "mongodb://root:root@cluster0-shard-00-00-vcdx3.mongodb.net:27017,cluster0-shard-00-01-vcdx3.mongodb.net:27017,cluster0-shard-00-02-vcdx3.mongodb.net:27017/angular?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
   MongoClient.connect(uri, function(err, db) {
